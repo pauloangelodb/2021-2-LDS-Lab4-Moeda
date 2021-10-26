@@ -1,11 +1,11 @@
 # 2021-2-LDS-Lab4-Moeda
 
-Sistema de Moeda Estudantil
+## Sistema de Moeda Estudantil
 Pretende-se desenvolver um sistema para estimular o reconhecimento do mérito estudantil através de uma moeda virtual. Essa moeda pode ser distribuída por professores aos seus alunos e trocada pelos alunos por produtos e descontos em empresas parceiras. Após a análise inicial de requisitos do sistema, foram levantadas as seguintes informações:
 
  
 
-Descrição do Sistema:
+## Descrição do Sistema:
 Os alunos que desejam ingressar no sistema de mérito devem realizar um cadastro, indicando nome, email, CPF, RG, Endereço, Instituição de Ensino e curso. As instituições participantes já estão pré-cadastradas no sistema, para que o aluno selecione.
 
 Os professores já estarão pré-cadastrados no sistema (a instituição envia a lista no momento da parceria). Cada professor terá armazenado o seu nome, CPF e departamento que está vinculado. É necessário deixar explícito que ele faz parte de uma instituição.
@@ -30,7 +30,7 @@ Por fim, alunos, professores e empresas parceiras precisam ter um login e uma se
 
  
 
-Apresentação Final:
+## Apresentação Final:
 
 Ao final da última sprint (Sprint 03), os alunos deverão apresentar o protótipo produzido para a primeira release, comparando-os com os modelos descritos inicialmente, bem como apresentando as modificações inseridas para o funcionamento adequado do software (conforme a especificação anterior). Além disso, ao final da Sprint 03, cada grupo deverá apresentar um tutorial das tecnologias escolhidas para desenvolver o sistema. A ideia é promovermos um salão de tecnologias na aula. Cada apresentação deve ter 25-30 min de duração. Ela fará parte da especificação da Sprint 03.
 
