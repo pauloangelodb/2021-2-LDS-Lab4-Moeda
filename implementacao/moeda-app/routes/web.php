@@ -28,4 +28,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::get('/entidade/lista', 'EntidadeController@lista');
+Route::post('/entidade/save', 'EntidadeController@save');
+
+Route::post('/relatorio/show/{id}', 'relatorio\RelatorioController@show');
+Route::get('/entidade/lista', 'EntidadeController@lista');
+
+
 require __DIR__.'/auth.php';

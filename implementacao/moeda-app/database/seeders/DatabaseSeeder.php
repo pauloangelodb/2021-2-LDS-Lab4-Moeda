@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +16,37 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        DB::table('endereco')->insert([
+            'cep' => 30451395,
+            'rua' => 'rua ' . Str::random(5),
+            'bairro' => Str::random(10),
+            'cidade' => 'BH',
+            'estado' => 'MG',
+        ]);
+
+        DB::table('entidade')->insert([
+            'nome' => 'Joao',
+            'documento' =>  Str::random(11),
+            'endereco_id' => 1
+        ]);
+
+        DB::table('instituicao')->insert(
+            [
+                'nome' => 'PUC MG',
+            ],
+            [
+                'nome' => 'UNI BH'
+            ]
+        );
+
+        DB::table('users')->insert([
+            'name' => 'Joao',
+            'email' => 'joao@teste.com',
+            'tipo' => 'A',
+            'password' => Hash::make("teste123"), // password
+            'remember_token' => Str::random(10),
+            'entidade_id' => 1
+        ]);
+
     }
 }

@@ -26,7 +26,7 @@ class Moeda extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->string('documento');
-            $table->integer('endereco_id');
+            $table->integer('endereco_id')->unsigned();
             $table->foreign('endereco_id')->references('id')->on('endereco');
         });
 
@@ -35,10 +35,10 @@ class Moeda extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->char('tipo', );
+            $table->char('tipo');
             $table->rememberToken();
             $table->timestamps();
-            $table->integer('entidade_id');
+            $table->integer('entidade_id')->unsigned();
             $table->foreign('entidade_id')->references('id')->on('entidade');
         });
 
@@ -51,7 +51,7 @@ class Moeda extends Migration
         Schema::create('curso', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
-            $table->integer('instituicao_id');
+            $table->integer('instituicao_id')->unsigned();
             $table->foreign('instituicao_id')->references('id')->on('instituicao');
 
         });
@@ -59,7 +59,7 @@ class Moeda extends Migration
         Schema::create('departamento', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
-            $table->integer('instituicao_id');
+            $table->integer('instituicao_id')->unsigned();
             $table->foreign('instituicao_id')->references('id')->on('instituicao');
         });
 
@@ -73,7 +73,7 @@ class Moeda extends Migration
             $table->increments('id');
             $table->timestamp('data');
             $table->double('valor');
-            $table->integer('conta_id');
+            $table->integer('conta_id')->unsigned();
             $table->foreign('conta_id')->references('id')->on('conta');
         });
 
@@ -83,7 +83,7 @@ class Moeda extends Migration
             $table->string('nome');
             $table->string('descricao')->nullable();
             $table->double('valor');
-            $table->integer('entidade_id');
+            $table->integer('entidade_id')->unsigned();
             $table->foreign('entidade_id')->references('id')->on('entidade');
         });
     }
