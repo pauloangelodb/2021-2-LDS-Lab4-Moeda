@@ -18,6 +18,9 @@
                                 <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </BreezeNavLink>
+                                <BreezeNavLink :href="route('aluno')" :active="route().current('aluno')">
+                                    Aluno
+                                </BreezeNavLink>
                             </div>
                         </div>
 

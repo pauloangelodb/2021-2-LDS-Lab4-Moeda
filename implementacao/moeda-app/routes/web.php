@@ -24,16 +24,17 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::group(['auth' => ['verified']], function (){
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+    Route::get('/aluno', function () {
+        return Inertia::render('Aluno');
+    })->name('aluno');
 
-Route::get('/entidade/lista', 'EntidadeController@lista');
-Route::post('/entidade/save', 'EntidadeController@save');
+});
 
-Route::post('/relatorio/show/{id}', 'relatorio\RelatorioController@show');
-Route::get('/entidade/lista', 'EntidadeController@lista');
 
 
 require __DIR__.'/auth.php';

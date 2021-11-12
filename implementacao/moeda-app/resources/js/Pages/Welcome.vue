@@ -7,14 +7,6 @@
                 Dashboard
             </Link>
 
-            <Link href="/dashboard" class="text-sm text-gray-700 underline">
-                Usuario
-            </Link>
-
-            <Link href="/dashboard" class="text-sm text-gray-700 underline">
-                Empresa parceira
-            </Link>
-
             <template v-else>
                 <Link :href="route('login')" class="text-sm text-gray-700 underline">
                     Log in
