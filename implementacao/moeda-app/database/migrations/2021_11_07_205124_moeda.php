@@ -42,7 +42,6 @@ class Moeda extends Migration
             $table->foreign('entidade_id')->references('id')->on('entidade');
         });
 
-
         Schema::create('instituicao', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
@@ -67,7 +66,6 @@ class Moeda extends Migration
             $table->increments('id');
             $table->double('saldo');
         });
-
 
         Schema::create('movimentacao', function (Blueprint $table) {
             $table->increments('id');

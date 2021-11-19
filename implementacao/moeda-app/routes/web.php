@@ -35,6 +35,24 @@ Route::group(['auth' => ['verified']], function (){
 
 });
 
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/entidade/lista', 'EntidadeController@lista');
+Route::post('/entidade/save', 'EntidadeController@save');
+
+Route::get('/aluno/lista', 'AlunoController@lista');
+Route::post('/aluno/save', 'AlunoController@save');
+Route::post('/aluno/edit', 'AlunoController@edit');
+Route::post('/aluno/remove/{id}', 'AlunoController@remove');
+
+Route::get('/empresa/lista', 'EmpresaController@lista');
+Route::post('/empresa/save', 'EmpresaController@save');
+Route::post('/empresa/edit', 'EmpresaController@edit');
+Route::post('/empresa/remove/{id}', 'EmpresaController@remove');
+
+// Route::post('/relatorio/show/{id}', 'relatorio\RelatorioController@show');
+// Route::get('/entidade/lista', 'EntidadeController@lista');
 
 require __DIR__.'/auth.php';
