@@ -24,28 +24,52 @@ class DatabaseSeeder extends Seeder
             'estado' => 'MG',
         ]);
 
-        DB::table('entidade')->insert([
-            'nome' => 'Joao',
-            'documento' =>  Str::random(11),
-            'endereco_id' => 1
+        $instituicaoId = DB::table('instituicao')->insertGetId(['nome' => 'PUC MG']);
+
+        DB::table('instituicao')->insertGetId(['nome' => 'PUC RJ']);
+
+        $pessoaId = DB::table('pessoa')->insertGetId([
+                        'nome' => 'Joao',
+                        'documento' =>  Str::random(11),
+                        'conta_id' => DB::table('conta')->insertGetId(['saldo' => 0])
+                    ]);
+
+        DB::table('aluno')->insert([
+            'pessoa_id' => $pessoaId,
+            'instituicao_id' => $instituicaoId
         ]);
 
-        DB::table('instituicao')->insert(
-            [
-                'nome' => 'PUC MG',
-            ],
-            [
-                'nome' => 'UNI BH'
-            ]
-        );
+        $pessoaId = DB::table('pessoa')->insertGetId([
+            'nome' => 'Laerte',
+            'documento' =>  Str::random(11),
+            'conta_id' => DB::table('conta')->insertGetId(['saldo' => 1000])
+        ]);
+
+
+        DB::table('professor')->insert([
+            'pessoa_id' => $pessoaId,
+            'instituicao_id' => $instituicaoId,
+        ]);
+
+
+        $pessoaId = DB::table('pessoa')->insertGetId([
+            'nome' => 'João Caram',
+            'documento' =>  Str::random(11),
+            'conta_id' => DB::table('conta')->insertGetId(['saldo' => 1000])
+        ]);
+
+
+        DB::table('professor')->insert([
+            'pessoa_id' => $pessoaId,
+            'instituicao_id' => $instituicaoId
+        ]);
+
 
         DB::table('users')->insert([
             'name' => 'Joao',
             'email' => 'joao@teste.com',
-            'tipo' => 'A',
             'password' => Hash::make("teste123"), // password
             'remember_token' => Str::random(10),
-            'entidade_id' => 1
         ]);
 
     }

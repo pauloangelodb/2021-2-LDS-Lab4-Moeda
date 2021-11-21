@@ -21,6 +21,9 @@
                                 <BreezeNavLink :href="route('aluno')" :active="route().current('aluno')">
                                     Aluno
                                 </BreezeNavLink>
+                                <BreezeNavLink :href="route('professor')" :active="route().current('professor')">
+                                    Professor
+                                </BreezeNavLink>
                             </div>
                         </div>
 
@@ -66,6 +69,12 @@
                     <div class="pt-2 pb-3 space-y-1">
                         <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('aluno')" :active="route().current('aluno')">
+                            Aluno
+                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('professor')" :active="route().current('professor')">
+                            Professor
                         </BreezeResponsiveNavLink>
                     </div>
 

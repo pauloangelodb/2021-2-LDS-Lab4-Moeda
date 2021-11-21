@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -11,15 +12,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $deleted_at
  * @property Instituicao $instituicao
  * @property Pessoa $pessoa
+ * @property ProfessorDepartamento[] $professorDepartamentos
  */
-class Aluno extends Model
+class Professor extends Model
 {
+    use SoftDeletes;
     /**
      * The table associated with the model.
      * 
      * @var string
      */
-    protected $table = 'aluno';
+    protected $table = 'professor';
 
     /**
      * @var array
@@ -40,5 +43,13 @@ class Aluno extends Model
     public function pessoa()
     {
         return $this->belongsTo('App\Models\Pessoa');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function professorDepartamentos()
+    {
+        return $this->hasMany('App\Models\ProfessorDepartamento');
     }
 }

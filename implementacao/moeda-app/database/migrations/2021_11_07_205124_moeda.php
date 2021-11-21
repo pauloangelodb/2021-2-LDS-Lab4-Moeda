@@ -15,6 +15,7 @@ class Moeda extends Migration
     {
         Schema::create('endereco', function (Blueprint $table) {
             $table->increments('id');
+            $table->softDeletes();
             $table->string('cep')->nullable();
             $table->string('rua')->nullable();
             $table->string('bairro')->nullable();
@@ -22,37 +23,83 @@ class Moeda extends Migration
             $table->string('estado')->nullable();
         });
 
-        Schema::create('entidade', function (Blueprint $table) {
+        Schema::create('conta', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
-            $table->string('documento');
-            $table->integer('endereco_id')->unsigned();
+            $table->softDeletes();
+            $table->double('saldo');
+        });
+
+        Schema::create('movimentacao', function (Blueprint $table) {
+            $table->increments('id');
+            $table->softDeletes();
+            $table->timestamp('data')->nullable();
+            $table->double('valor')->nullable();
+            $table->integer('conta_origem_id')->unsigned()->nullable();
+            $table->foreign('conta_origem_id')->references('id')->on('conta');
+            $table->integer('conta_destino_id')->unsigned()->nullable();
+            $table->foreign('conta_destino_id')->references('id')->on('conta');
+        });
+
+        Schema::create('pessoa', function (Blueprint $table) {
+            $table->increments('id');
+            $table->softDeletes();
+            $table->string('nome')->nullable();
+            $table->string('documento_tipo')->enum('CPF','CNPJ')->default('CPF');
+            $table->string('documento')->nullable();
+            $table->integer('endereco_id')->unsigned()->nullable();
             $table->foreign('endereco_id')->references('id')->on('endereco');
+            $table->integer('conta_id')->unsigned()->nullable();
+            $table->foreign('conta_id')->references('id')->on('conta');
         });
 
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
+            $table->softDeletes();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->char('tipo');
+            //$table->char('tipo');
             $table->rememberToken();
             $table->timestamps();
-            $table->integer('entidade_id')->unsigned();
-            $table->foreign('entidade_id')->references('id')->on('entidade');
+            // $table->integer('pessoa_id')->unsigned();
+            // $table->foreign('pessoa_id')->references('id')->on('pessoa');
         });
 
         Schema::create('instituicao', function (Blueprint $table) {
             $table->increments('id');
+            $table->softDeletes();
             $table->string('nome');
         });
 
         Schema::create('curso', function (Blueprint $table) {
             $table->increments('id');
+            $table->softDeletes();
             $table->string('nome');
+        });
+
+        Schema::create('aluno', function (Blueprint $table) {
+            $table->increments('id');
+            $table->softDeletes();
+            $table->integer('pessoa_id')->unsigned();
+            $table->foreign('pessoa_id')->references('id')->on('pessoa');
             $table->integer('instituicao_id')->unsigned();
             $table->foreign('instituicao_id')->references('id')->on('instituicao');
+        });
 
+        Schema::create('professor', function (Blueprint $table) {
+            $table->increments('id');
+            $table->softDeletes();
+            $table->integer('pessoa_id')->unsigned();
+            $table->foreign('pessoa_id')->references('id')->on('pessoa');
+            $table->integer('instituicao_id')->unsigned();
+            $table->foreign('instituicao_id')->references('id')->on('instituicao');
+        });
+
+        Schema::create('empresa', function (Blueprint $table) {
+            $table->increments('id');
+            $table->softDeletes();
+            $table->integer('pessoa_id')->unsigned();
+            $table->foreign('pessoa_id')->references('id')->on('pessoa');
         });
 
         Schema::create('departamento', function (Blueprint $table) {
@@ -62,27 +109,24 @@ class Moeda extends Migration
             $table->foreign('instituicao_id')->references('id')->on('instituicao');
         });
 
-        Schema::create('conta', function (Blueprint $table) {
+        Schema::create('professor_departamento', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('saldo');
+            $table->softDeletes();
+            $table->string('nome');
+            $table->integer('departamento_id')->unsigned();
+            $table->foreign('departamento_id')->references('id')->on('departamento');
+            $table->integer('professor_id')->unsigned();
+            $table->foreign('professor_id')->references('id')->on('professor');
         });
-
-        Schema::create('movimentacao', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamp('data');
-            $table->double('valor');
-            $table->integer('conta_id')->unsigned();
-            $table->foreign('conta_id')->references('id')->on('conta');
-        });
-
 
         Schema::create('vantagem', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
+            $table->softDeletes();
+            $table->string('nome')->nullable();
             $table->string('descricao')->nullable();
-            $table->double('valor');
-            $table->integer('entidade_id')->unsigned();
-            $table->foreign('entidade_id')->references('id')->on('entidade');
+            $table->double('valor')->nullable();
+            $table->integer('empresa_id')->unsigned();
+            $table->foreign('empresa_id')->references('id')->on('empresa');
         });
     }
 
@@ -95,14 +139,21 @@ class Moeda extends Migration
     {
         //
         Schema::dropIfExists('users');
-        Schema::dropIfExists('instituicao');
         Schema::dropIfExists('curso');
+        Schema::dropIfExists('professor_departamento');
         Schema::dropIfExists('departamento');
-        Schema::dropIfExists('conta');
+        Schema::dropIfExists('aluno');
+        Schema::dropIfExists('professor');
+
+        Schema::dropIfExists('instituicao');
         Schema::dropIfExists('movimentacao');
-        Schema::dropIfExists('entidade');
-        Schema::dropIfExists('endereco');
+        Schema::dropIfExists('conta');
         Schema::dropIfExists('vantagem');
+        Schema::dropIfExists('entidade');
+        Schema::dropIfExists('empresa');
+        Schema::dropIfExists('pessoa');
+        Schema::dropIfExists('endereco');
+
 
     }
 }

@@ -1,10 +1,12 @@
 <template>
-    <Head title="Dashboard" />
+    <Head title="Professor" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Aluno
+                Professor
+
+                <ButtonVue class="float-right"  @click="create"> Criar Professor </ButtonVue>
             </h2>
         </template>
 
@@ -12,22 +14,26 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                                                        <Label v-bind:value="'Label teste'"/>
-                                    <Input v-model="inputTeste" />
                         <table>
-                        <br/>
                             <thead>
                                 <tr>
-                                   <td> Nome</td>
+                                   <th> Nome </th>
+                                   <th> Documento </th>
+                                   <th> Saldo </th>
+                                   <th> Instituicao </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody v-for="(item, index) in $page.props.data" :key="index">
                                 <tr>
-                                   <td> teste </td>
+                                   <td> {{item.pessoa.nome}} </td>
+                                   <td> {{item.pessoa.documento}} </td>
+                                   <td> {{item.pessoa.conta.saldo}} </td>
+                                   <td> {{item.instituicao.nome}} </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -36,8 +42,9 @@
 
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue'
-import Label from '../Components/Label.vue'
-import Input from '../Components/Label.vue'
+import Label from '@/Components/Label.vue'
+import Input from '@/Components/Input.vue'
+import ButtonVue from '@/Components/Button.vue';
 
 import { Head } from '@inertiajs/inertia-vue3';
 
@@ -46,7 +53,8 @@ export default {
         BreezeAuthenticatedLayout,
         Head,
         Label,
-        Input
+        Input,
+        ButtonVue
     },
 
     data() {
@@ -57,6 +65,12 @@ export default {
 
     watch: {
         inputTeste: (val) => { console.log(val) }
-    }
+    },
+
+    methods: {
+        create(){
+            //this.$inertia.get(route('professor.create'))
+        }
+    },  
 }
 </script>
