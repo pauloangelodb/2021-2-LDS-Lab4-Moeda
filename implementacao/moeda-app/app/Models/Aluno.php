@@ -24,7 +24,7 @@ class Aluno extends Model
     /**
      * @var array
      */
-    protected $fillable = ['pessoa_id', 'instituicao_id', 'deleted_at'];
+    protected $fillable = ['pessoa_id', 'curso_id', 'instituicao_id', 'deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -40,5 +40,13 @@ class Aluno extends Model
     public function pessoa()
     {
         return $this->belongsTo('App\Models\Pessoa');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function curso()
+    {
+        return $this->belongsTo('App\Models\Curso');
     }
 }

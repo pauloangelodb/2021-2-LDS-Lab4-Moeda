@@ -1,10 +1,10 @@
 <template>
-    <Head title=" Criar Aluno" />
+    <Head title=" Criar Empresa" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Criar Aluno
+                Criar Empresa
 
                 <ButtonVue class="float-right"  @click="voltar"> Voltar </ButtonVue>
             </h2>
@@ -26,22 +26,6 @@
                             <div class="mt-4">
                                 <BreezeLabel for="documento" value="Documento" />
                                 <BreezeInput id="documento" type="text" class="mt-1 block w-full" v-model="form.documento" required autocomplete="documento" />
-                            </div>
-
-                            <div class="mt-4">
-                                <BreezeLabel for="curso" value="Curso" />
-                                  <select id="curso" v-model="form.curso_id" class="mt-1 block w-full">
-                                        <option selected disabled value=""> Selecione o curso </option>
-                                        <option v-for="(item, index) in $page.props.cursos" :key="index" :value="item.id">{{item.nome}}</option>
-                                  </select>
-                            </div>
-
-                            <div class="mt-4">
-                                <BreezeLabel for="instituicao" value="Instituicao" />
-                                  <select id="instituicao" v-model="form.instituicao_id" class="mt-1 block w-full">
-                                        <option selected disabled value=""> Selecione a instituicao </option>
-                                        <option v-for="(item, index) in $page.props.instituicaos" :key="index" :value="item.id">{{item.nome}}</option>
-                                  </select>
                             </div>
 
                             <div class="text-center mt-4">
@@ -79,9 +63,7 @@ export default {
         return {
             form: this.$inertia.form({
                 nome: '',
-                documento: '',
-                curso_id:'',
-                instituicao_id: ''
+                documento: ''
             })
         }
     },
@@ -89,14 +71,13 @@ export default {
 
     methods: {
         submit() {
-            this.form.post(this.route('aluno.save'), {
+            this.form.post(this.route('empresa.save'), {
                // onFinish: () => this.form.reset('password', 'password_confirmation'),
-            })
-            console.log(this.$page.props.cursos);
+            })            
         },
 
         voltar(){
-            this.$inertia.get(route('aluno'))
+            this.$inertia.get(route('empresa'))
         }
     },
 }

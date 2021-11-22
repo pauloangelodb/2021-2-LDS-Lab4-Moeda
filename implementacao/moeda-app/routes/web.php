@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Curso;
+use App\Models\Instituicao;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,15 +33,28 @@ Route::group(['auth', 'verified'], function (){
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-
+    //aluno
     Route::get('/aluno',   'AlunoController@index')->name('aluno');
 
     Route::get('/aluno/create',  function(){ 
-        return Inertia::render('Aluno/create');
+        return Inertia::render('Aluno/create', ['cursos' => Curso::all(), 'instituicaos' => Instituicao::all()]);
     })->name('aluno.create');
 
+    Route::post('/aluno/create', 'AlunoController@save')->name('aluno.save');
 
+    //empresa
+    Route::get('/empresa',   'EmpresaController@index')->name('empresa');
+
+    Route::get('/empresa/create',  function () {
+        return Inertia::render('Empresa/create');
+    })->name('empresa.create');
+
+    Route::post('/empresa/create', 'EmpresaController@save')->name('empresa.save');
+
+
+    //prof
     Route::get('/professor',   'ProfessorController@index')->name('professor');
+
 
     
     // Route::get('/aluno', function () {

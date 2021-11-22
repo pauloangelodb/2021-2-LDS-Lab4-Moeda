@@ -21,6 +21,9 @@
                                 <BreezeNavLink :href="route('aluno')" :active="route().current('aluno')">
                                     Aluno
                                 </BreezeNavLink>
+                                <BreezeNavLink :href="route('empresa')" :active="route().current('empresa')">
+                                    Empresa
+                                </BreezeNavLink>
                                 <BreezeNavLink :href="route('professor')" :active="route().current('professor')">
                                     Professor
                                 </BreezeNavLink>
@@ -72,6 +75,9 @@
                         </BreezeResponsiveNavLink>
                         <BreezeResponsiveNavLink :href="route('aluno')" :active="route().current('aluno')">
                             Aluno
+                        </BreezeResponsiveNavLink>
+                        <BreezeResponsiveNavLink :href="route('empresa')" :active="route().current('empresa')">
+                            Empresa
                         </BreezeResponsiveNavLink>
                         <BreezeResponsiveNavLink :href="route('professor')" :active="route().current('professor')">
                             Professor

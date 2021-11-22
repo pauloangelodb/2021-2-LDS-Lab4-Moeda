@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aluno;
+use App\Models\Pessoa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class AlunoController extends Controller
 
     public function index(Request $request)
     {        
-        $relationShips = ['instituicao', 'pessoa', 'pessoa.conta'];
+        $relationShips = ['instituicao', 'pessoa', 'curso', 'pessoa.conta'];        
         return Inertia::render('Aluno/index', Aluno::with($relationShips)->paginate());
     }
 
@@ -36,23 +37,29 @@ class AlunoController extends Controller
         return response()->json($lista);
     }
 
-    public function save(Request $request)
-    {
-        
-        $new = [
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'tipo' => $request->input('tipo'),
-            'entidade_id' => $request->input('entidade_id')
-        ];
+    public function save(Request $request){
 
-        //dd('teste');
-        $lista = DB::table('users')->insert($new);
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'documento' => 'required|string|max:255',
+            'curso_id' => 'required',
+            'instituicao_id' => 'required'
+        ]);
 
-        dd($lista);
-        return response()->json($lista);
+        $aluno = new Aluno();
+        $aluno->curso_id = intval($request->curso_id);
+        $aluno->instituicao_id = intval($request->instituicao_id);
+        $aluno->pessoa_id = DB::table('pessoa')->insertGetid([
+            'nome' => $request->nome,
+            'documento_tipo' => 'CPF',
+            'documento' => $request->documento,
+            'conta_id' => DB::table('conta')->insertGetId(['saldo' => 0])
+        ]);
+        $aluno->save();
+        return redirect()->route('aluno');
     }
+
+
 
     public function edit(Request $request)
     {

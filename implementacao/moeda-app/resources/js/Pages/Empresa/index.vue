@@ -1,12 +1,12 @@
 <template>
-    <Head title="Aluno" />
+    <Head title="Empresa" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Aluno
+                Empresa
 
-                <ButtonVue class="float-right"  @click="create"> Criar Aluno </ButtonVue>
+                <ButtonVue class="float-right"  @click="create"> Criar Empresa </ButtonVue>
             </h2>
         </template>
 
@@ -19,18 +19,12 @@
                                 <tr>
                                    <th> Nome </th>
                                    <th> Documento </th>
-                                   <th> Saldo </th>
-                                   <th> Curso </th>
-                                   <th> Instituicao </th>
                                 </tr>
                             </thead>
                             <tbody v-for="(item, index) in $page.props.data" :key="index">
                                 <tr>
                                    <td> {{item.pessoa.nome}} </td>
                                    <td> {{item.pessoa.documento}} </td>
-                                   <td> {{item.pessoa.conta.saldo}} </td>
-                                   <td> {{item.curso.nome}} </td>
-                                   <td> {{item.instituicao.nome}} </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -71,7 +65,7 @@ export default {
 
     methods: {
         create(){
-            this.$inertia.get(route('aluno.create'))
+            this.$inertia.get(route('empresa.create'))
         }
     },  
 }
