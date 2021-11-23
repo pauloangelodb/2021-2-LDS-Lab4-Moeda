@@ -28,11 +28,8 @@ class AlunoController extends Controller
     public function lista()
     {
         $lista = Array();
-
-        //dd('teste');
-        //$lista = DB::table('users')->get()->where('tipo', "a");
-
-        //dd($lista);
+        $relationShips = ['instituicao', 'pessoa', 'curso', 'pessoa.conta'];
+        $lista = Aluno::with($relationShips)->paginate();
 
         return response()->json($lista);
     }
@@ -60,30 +57,40 @@ class AlunoController extends Controller
     }
 
 
-
-    public function edit(Request $request)
+    public function edit(Request $request, $id)
     {
+        $aluno = DB::table('aluno')->firstWhere('id', $id);
+
+        return response()->json(['aluno' => $aluno]);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'documento' => 'required|string|max:255',
+            'curso_id' => 'required',
+            'instituicao_id' => 'required'
+        ]);
+
+        $aluno = DB::table('aluno')->firstWhere('id', $id);
+        $aluno->curso_id = $request->curso_id;
+        $aluno->instituicao_id = $request->instituicao_id;
+        $pessoa = DB::table('pessoa')->firstWhere('id', $aluno->pessoa_id);
+        $pessoa->nome = $request->nome;
+        $pessoa->documento = $request->documento;
+        $pessoa->save();        
         
-        $edit = [
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'tipo' => 'a',
-            'entidade_id' => $request->input('entidade_id')
-        ];
-
-        //dd('teste');
-        $lista = DB::table('users')->where('email', $edit['email'])->update($edit);
-
-        dd($lista);
-        return response()->json($lista);
+        return response()->json(['code' => 200, 'message' => 'Aluno atualizado com sucesso']);
     }
 
     public function remove(Request $request)
     {
         
         //dd('teste');
-        $lista = DB::table('users')->where('id', $request->segment(3))->delete();
+        $lista = DB::table('users')->where('id', $request->id)->delete();
 
         dd($lista);
         return response()->json($lista);

@@ -16,13 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('endereco')->insert([
-            'cep' => 30451395,
-            'rua' => 'rua ' . Str::random(5),
-            'bairro' => Str::random(10),
-            'cidade' => 'BH',
-            'estado' => 'MG',
-        ]);
 
         $instituicaoId = DB::table('instituicao')->insertGetId(['nome' => 'PUC MG']);
 

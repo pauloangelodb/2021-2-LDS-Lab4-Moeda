@@ -13,16 +13,6 @@ class Moeda extends Migration
      */
     public function up()
     {
-        Schema::create('endereco', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-            $table->softDeletes();
-            $table->string('cep')->nullable();
-            $table->string('rua')->nullable();
-            $table->string('bairro')->nullable();
-            $table->string('cidade')->nullable();
-            $table->string('estado')->nullable();
-        });
 
         Schema::create('conta', function (Blueprint $table) {
             $table->increments('id');
@@ -50,8 +40,6 @@ class Moeda extends Migration
             $table->string('nome')->nullable();
             $table->string('documento_tipo')->enum('CPF', 'CNPJ')->default('CPF');
             $table->string('documento')->nullable();
-            $table->integer('endereco_id')->unsigned()->nullable();
-            $table->foreign('endereco_id')->references('id')->on('endereco');
             $table->integer('conta_id')->unsigned()->nullable();
             $table->foreign('conta_id')->references('id')->on('conta');
         });
