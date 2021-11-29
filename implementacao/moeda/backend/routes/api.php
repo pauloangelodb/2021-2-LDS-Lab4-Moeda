@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Curso;
+use App\Models\Instituicao;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,27 @@ Route::post('register', 'ApiController@register');
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('logout', 'ApiController@logout');
     Route::get('get_user', 'ApiController@get_user');
+    Route::get('me', 'ApiController@me');
+    Route::get('refresh', 'ApiController@refresh');
+
+    Route::get('/aluno',   'AlunoController@index');
+    Route::post('/aluno', 'AlunoController@save');
+
+    Route::get('/curso', 'CursoController@lista');
+
+    Route::get('/instituicao', 'InstituicaoController@lista');
+
+
+    Route::get('/empresa',   'EmpresaController@index');
+    Route::post('/empresa',   'EmpresaController@save');
+
+
+    Route::get('/professor',   'ProfessorController@index');
+
+    Route::get('/conta',        'ContaController@lista');
+
+    Route::get('/movimentacao', 'MovimentacaoController@lista');
+    Route::post('/movimentacao', 'MovimentacaoController@save');
     // Route::get('products', [ProductController::class, 'index']);
     // Route::get('products/{id}', [ProductController::class, 'show']);
     // Route::post('create', [ProductController::class, 'store']);
