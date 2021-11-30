@@ -128,6 +128,11 @@ export default {
           icon: 'mdi-account',
           title: 'Vantagem',
           to: '/vantagem'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Usuario',
+          to: '/usuario'
         }
       ],
       miniVariant: false,

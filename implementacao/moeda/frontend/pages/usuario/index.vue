@@ -4,7 +4,7 @@
     <v-card class="mx-auto pa-5 mt-3" width="100%">
       <div class="div-titulo-btn">
         <v-card-title>
-          <span class="text-h6">Professores</span>
+          <span class="text-h6">Usuários</span>
         </v-card-title>
         <v-card-actions>
           <v-btn
@@ -13,9 +13,9 @@
             background="primary"
             @click="abreModal(0)"
           >
-            Adicionar Professor
+            Adicionar Usuário
           </v-btn>
-          <!-- <modalTratamento v-model="modalAtivo" v-bind:tratamentoId="tratamentoId" @professorprofessores="professorprofessores" /> -->
+          <!-- <modalTratamento v-model="modalAtivo" v-bind:tratamentoId="tratamentoId" @listaUsuarios="listaUsuarios" /> -->
         </v-card-actions>
       </div>
       <!-- Filtro Simples -->
@@ -23,9 +23,9 @@
         <template>
           <v-data-table
             class="elevation-1 tratamento-table"
-            v-if="professores && professores.length > 0"
+            v-if="usuarios && usuarios.length > 0"
             :headers="headers"
-            :items="professores"
+            :items="usuarios"
             :loading="tabelaCarregando"
             :items-per-page="10"
             :disable-sort="true"
@@ -55,7 +55,7 @@
           <v-pagination
             v-model="tabelaPaginaAtual"
             :length="tabelaPaginas"
-            @input="professorprofessores"
+            @input="listaUsuarios"
           />
         </template>
       </v-card-text>
@@ -108,13 +108,11 @@ export default {
     return {
       headers: [
         { text: 'Nome', value: 'pessoa.nome' },
-        { text: 'Documento', value: 'pessoa.documento' },
-        { text: 'Instituicao', value: 'instituicao.nome' },      
-        { text: 'Saldo', value: 'pessoa.conta.saldo' },        
+        { text: 'Email', value: 'pessoa.email' },
+        { text: 'Senha', value: 'pessoa.password' },
       ],
-      professores: [],
+      usuarios: [],
 
-      tratamentoId: 0,
       toast: false,
       toastMensagem: '',
       modalAtivo: false,
@@ -126,21 +124,20 @@ export default {
     }
   },
   mounted() {
-   this.professorprofessores();
+   this.listaUsuarios();
   },
   methods: {
 
-    professorprofessores() {
+    listaUsuarios() {
       this.tabelaCarregando = true;
 
-      this.$axios.$get(`/professor?pagina=${this.tabelaPaginaAtual}`).then(response => {
-        this.professores = response.data;      
+      this.$axios.$get(`/usuario?pagina=${this.tabelaPaginaAtual}`).then(response => {
+        this.usuarios = response.data;      
         this.tabelaPaginas = response.last_page
         this.totalItems = response.total
       }).catch(error => {
         console.log(error)
-        this.$swal('Opss..', { text: error.response.data.message, icon: 'error' });
-
+        //this.$Message.alert(error.response.data.message,'Erro', {type: 'error', msgBody: {style: {width: '30%'}}})
       }).finally(() =>{
         this.tabelaCarregando = false
       })
@@ -157,7 +154,10 @@ export default {
       }
     },
 
-
+    abreToast(mensagem) {
+      this.toastMensagem = mensagem;
+      this.toast = true;
+    },
 
   }
 
