@@ -29,7 +29,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('me', 'ApiController@me');
     Route::get('refresh', 'ApiController@refresh');
 
-    Route::get('/aluno',   'AlunoController@index');
+    Route::get('/aluno',   'AlunoController@lista');
     Route::post('/aluno', 'AlunoController@save');
 
     Route::get('/curso', 'CursoController@lista');
@@ -37,16 +37,19 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/instituicao', 'InstituicaoController@lista');
 
 
-    Route::get('/empresa',   'EmpresaController@index');
+    Route::get('/empresa',   'EmpresaController@lista');
     Route::post('/empresa',   'EmpresaController@save');
 
 
-    Route::get('/professor',   'ProfessorController@index');
+    Route::get('/professor',   'ProfessorController@lista');
 
     Route::get('/conta',        'ContaController@lista');
 
     Route::get('/movimentacao', 'MovimentacaoController@lista');
     Route::post('/movimentacao', 'MovimentacaoController@save');
+
+    Route::get('/vantagem',     'VantagemController@lista');
+    Route::post('/vantagem',     'VantagemController@save');
     // Route::get('products', [ProductController::class, 'index']);
     // Route::get('products/{id}', [ProductController::class, 'show']);
     // Route::post('create', [ProductController::class, 'store']);

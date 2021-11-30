@@ -4,7 +4,7 @@
     <v-card class="mx-auto pa-5 mt-3" width="100%">
       <div class="div-titulo-btn">
         <v-card-title>
-          <span class="text-h6">Professores</span>
+          <span class="text-h6">Vantagens</span>
         </v-card-title>
         <v-card-actions>
           <v-btn
@@ -13,9 +13,9 @@
             background="primary"
             @click="abreModal(0)"
           >
-            Adicionar Professor
+            Adicionar Vantagem
           </v-btn>
-          <!-- <modalTratamento v-model="modalAtivo" v-bind:tratamentoId="tratamentoId" @professorprofessores="professorprofessores" /> -->
+          <modal-vantagem v-model="modalAtivo" v-bind:vantagemId="vantagemId" @listaVantagens="listaVantagens" />
         </v-card-actions>
       </div>
       <!-- Filtro Simples -->
@@ -23,9 +23,9 @@
         <template>
           <v-data-table
             class="elevation-1 tratamento-table"
-            v-if="professores && professores.length > 0"
+            v-if="vantagens && vantagens.length > 0"
             :headers="headers"
-            :items="professores"
+            :items="vantagens"
             :loading="tabelaCarregando"
             :items-per-page="10"
             :disable-sort="true"
@@ -35,16 +35,6 @@
               'items-per-page-options': [25]
             }"
           >
-            <!-- <template v-slot:item.direcionado= "{ item }">
-              {{item.direcionado == "HEPB" ? "Hepatite B":  "Hepatite C"}}
-            </template> -->
-            <!-- <template v-slot:item.actions="{ item }">
-            
-              <v-icon color="primary" class="mr-2" @click="abreModal(item.id)">
-                mdi-square-edit-outline
-              </v-icon>
-
-            </template> -->
           </v-data-table>
           <span class="d-block text-center" v-else>Nenhum Registro Encontrado</span>
           <br>
@@ -55,21 +45,11 @@
           <v-pagination
             v-model="tabelaPaginaAtual"
             :length="tabelaPaginas"
-            @input="professorprofessores"
+            @input="listaVantagens"
           />
         </template>
       </v-card-text>
     </v-card>
-
-    <v-snackbar v-model="toast" shaped>
-      {{ toastMensagem }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn color="blue" text v-bind="attrs" @click="toast = false">
-          Ok
-        </v-btn>
-      </template>
-    </v-snackbar>
   </v-container>
 </template>
 
@@ -97,26 +77,23 @@
 </style>
 
 <script>
-//import modalTratamento from '@/components/tratamento/modal.vue'
+import modalVantagem from '@/components/vantagem/modal.vue'
 export default {
   layout: "index",
   components: {
-    //modalTratamento,
+    modalVantagem,
   },
 
   data() {
     return {
       headers: [
-        { text: 'Nome', value: 'pessoa.nome' },
-        { text: 'Documeneto', value: 'pessoa.documento' },
-        { text: 'Instituicao', value: 'instituicao.nome' },      
-        { text: 'Saldo', value: 'pessoa.conta.saldo' },        
+        { text: 'Nome', value: 'nome' },
+        { text: 'Valor', value: 'valor' },
+        { text: 'Empresa', value: 'empresa.pessoa.nome' },      
       ],
-      professores: [],
+      vantagens: [],
 
-      tratamentoId: 0,
-      toast: false,
-      toastMensagem: '',
+      vantagemId: 0,
       modalAtivo: false,
 
       totalItems: 0,
@@ -126,15 +103,15 @@ export default {
     }
   },
   mounted() {
-   this.professorprofessores();
+   this.listaVantagens();
   },
   methods: {
 
-    professorprofessores() {
+    listaVantagens() {
       this.tabelaCarregando = true;
 
-      this.$axios.$get(`/professor?pagina=${this.tabelaPaginaAtual}`).then(response => {
-        this.professores = response.data;      
+      this.$axios.$get(`/vantagem?pagina=${this.tabelaPaginaAtual}`).then(response => {
+        this.vantagens = response.data;      
         this.tabelaPaginas = response.last_page
         this.totalItems = response.total
       }).catch(error => {
@@ -150,10 +127,10 @@ export default {
     abreModal(id){
       if(id){
         this.modalAtivo = !this.modalAtivo;
-        this.tratamentoId = id;
+        this.vantagemId = id;
       }else{
         this.modalAtivo = !this.modalAtivo;
-        this.tratamentoId = 0;
+        this.vantagemId = 0;
       }
     },
 

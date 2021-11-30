@@ -60,8 +60,9 @@
                                         hide-details="auto"
                                         label="Valor"
                                         :rules="[v => !!v || 'Valor é obrigatório']"
-                                        maxlength="30"
                                         type="number"
+                                        min="1"
+                                        maxlength="6"
                                         outlined
                                     />
                                 </v-col>
@@ -89,14 +90,14 @@ export default {
             valid: true,
             titulo: "Novo transacao",
 
-            transacao:{
+            transacao: {
                 conta_origem_id: '',
                 conta_destino_id: '',
                 valor: ''
             },
 
-            alunos: [{ pessoa:{nome: ''}, conta:{id:'', saldo:''} }],
-            professores: [{ pessoa:{nome: ''}, conta:{id:'', saldo:''} }],
+            alunos: [{ pessoa: { nome: '' }, conta: { id: '', saldo: '' } }],
+            professores: [{ pessoa: { nome: '' }, conta: { id: '', saldo: '' } }],
 
         };
     },
@@ -106,14 +107,16 @@ export default {
                 .$get("/professor")
                 .then((response) => { this.professores = response.data })
                 .catch((error) => {
-                    this.$emit('abreToast', error);
+                    this.$swal('Opss..', { text: error.response.data.message, icon: 'error' });
+
                 });
 
             this.$axios
                 .$get("/aluno")
                 .then((response) => { this.alunos = response.data })
                 .catch((error) => {
-                    this.$emit('abreToast', error);
+                    this.$swal('Opss..', { text: error.response.data.message, icon: 'error' });
+
                 });
         },
     },
@@ -126,25 +129,23 @@ export default {
                     .$post("/movimentacao", transacao)
                     .then((response) => {
                         this.limpaDados();
-                        this.$emit('abreToast', "transacao adicionado com sucesso!");
+                        this.$swal( "transacao adicionado com sucesso!");
                         this.$emit('input', false)
                         this.$emit('listaTransacoes')
                     })
                     .catch((error) => {
-                        this.abreToast(error);
+                        this.$swal('Opss..', { text: error.response.data.message, icon: 'error' });
                     });
-
-
             }
         },
 
         limpaDados() {
-            this.transacao={
+            this.transacao = {
                 conta_origem_id: '',
                 conta_destino_id: '',
                 valor: ''
             },
-            this.$refs.formTransacao.reset();
+                this.$refs.formTransacao.reset();
         },
 
     },

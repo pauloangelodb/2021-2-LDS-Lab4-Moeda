@@ -25,6 +25,7 @@ class Moeda extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->softDeletes();
+            $table->string('descricao')->nullable();
             $table->timestamp('data')->nullable();
             $table->double('valor')->nullable();
             $table->integer('conta_origem_id')->unsigned()->nullable();

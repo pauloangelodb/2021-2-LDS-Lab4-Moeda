@@ -121,14 +121,16 @@ export default {
                 .$get("/curso")
                 .then((response) => { this.cursos = response })
                 .catch((error) => {
-                    this.$emit('abreToast', error);
+                    this.$swal('Opss..', { text: error.response.data.message, icon: 'error' });
+
                 });
 
             this.$axios
                 .$get("/instituicao")
                 .then((response) => { this.instituicaos = response })
                 .catch((error) => {
-                    this.$emit('abreToast', error);
+                    this.$swal('Opss..', { text: error.response.data.message, icon: 'error' });
+
                 });
         },
         alunoId: function (id) {
@@ -151,7 +153,7 @@ export default {
                         .$post("/aluno", aluno)
                         .then((response) => {
                             this.limpaDados();
-                            this.$emit('abreToast', "aluno adicionado com sucesso!");
+                            this.$swal( "aluno adicionado com sucesso!");
                             this.$emit('input', false)
                             this.$emit('listaAlunos')
 
@@ -164,7 +166,7 @@ export default {
                         .$put("/aluno/" + aluno.id, aluno)
                         .then((response) => {
                             this.edit(aluno.id);
-                            this.$emit('abreToast', "aluno atualizado com sucesso!");
+                            this.$swal( "aluno atualizado com sucesso!");
                             this.$emit('input', false)
                             this.$emit('listaAlunos')
                         })

@@ -21,7 +21,8 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/assets/css/index.css'
+    '~/assets/css/index.css',
+    '@sweetalert2/theme-dark'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -42,7 +43,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    'vue-sweetalert2/nuxt/no-css',
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

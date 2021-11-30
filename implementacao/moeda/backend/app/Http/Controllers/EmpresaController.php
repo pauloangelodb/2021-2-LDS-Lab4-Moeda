@@ -17,7 +17,7 @@ class EmpresaController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function lista(Request $request)
     {
         $relationShips = ['pessoa', 'pessoa.conta'];
         return response()->json(Empresa::with($relationShips)->paginate());
@@ -40,20 +40,6 @@ class EmpresaController extends Controller
         $empresa->save();
         return response()->json();
     }
-
-
-    public function lista()
-    {
-        $lista = Array();
-
-        //dd('teste');
-        $lista = DB::table('users')->get()->where('tipo', 'e');
-
-        dd($lista);
-
-        return response()->json($lista);
-    }
-
 
     public function edit(Request $request)
     {

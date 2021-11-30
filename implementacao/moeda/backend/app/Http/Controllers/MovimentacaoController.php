@@ -38,8 +38,9 @@ class MovimentacaoController extends Controller
         if(($origem->saldo - $valor) < 0){
             return response()->json(["message"=>"Saldo insuficiente"], 400);
         }
-        $origem->saldo -= $valor;
+        $origem->saldo = $origem->saldo - $valor;        
         $origem->save();
+        dd($origem);
 
         $destino = Conta::find($request->conta_destino_id)->first();
         $destino->saldo += $valor;

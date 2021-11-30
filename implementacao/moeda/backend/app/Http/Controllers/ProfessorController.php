@@ -17,23 +17,11 @@ class ProfessorController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function lista(Request $request)
     {
         $relationShips = ['instituicao', 'pessoa', 'pessoa.conta'];
 
         return response()->json(Professor::with($relationShips)->paginate());
-    }
-
-    public function lista()
-    {
-        $lista = array();
-
-        //dd('teste');
-        //$lista = DB::table('users')->get()->where('tipo', "a");
-
-        //dd($lista);
-
-        return response()->json($lista);
     }
 
 }

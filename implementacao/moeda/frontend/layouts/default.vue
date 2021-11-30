@@ -32,13 +32,13 @@
       v-if="$store.getters['login/token']"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
+      <!-- <v-btn
         icon
         @click.stop="miniVariant = !miniVariant"
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
+      </v-btn> -->
+      <!-- <v-btn
         icon
         @click.stop="clipped = !clipped"
       >
@@ -51,9 +51,9 @@
         <v-icon>mdi-minus</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title" />
-      <v-spacer />
-
-      <v-btn color="primary" @click="logout">
+      -->
+      <v-spacer /> 
+      <v-btn color="primary"  @click="logout">
         Logout        
       </v-btn>
       <!-- <v-btn
@@ -94,6 +94,8 @@
   </v-app>
 </template>
 
+<script src="sweetalert2.all.min.js"></script>
+
 <script>
 export default {
   data () {
@@ -113,9 +115,19 @@ export default {
           to: '/aluno'
         },
         {
-          icon: 'mdi-local-hospital',
+          icon: 'mdi-account',
           title: 'Empresa',
           to: '/empresa'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Professor',
+          to: '/professor'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Vantagem',
+          to: '/vantagem'
         }
       ],
       miniVariant: false,

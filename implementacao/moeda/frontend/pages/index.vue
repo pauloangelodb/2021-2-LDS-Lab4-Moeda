@@ -100,7 +100,8 @@ export default {
         this.totalItems = response.total
       }).catch(error => {
         console.log(error)
-        //this.$Message.alert(error.response.data.message,'Erro', {type: 'error', msgBody: {style: {width: '30%'}}})
+        this.$swal('Opss..', { text: error.response.data.message, icon: 'error' });
+
       }).finally(() => {
         this.tabelaCarregando = false
       })

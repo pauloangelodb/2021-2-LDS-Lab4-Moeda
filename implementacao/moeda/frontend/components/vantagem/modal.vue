@@ -5,12 +5,12 @@
             scrollable
             max-width="500px"
             transition="dialog-bottom-transition"
-            class="empresa-modal"
+            class="vantagem-modal"
             @click:outside="$emit('input', false)"
             @keydown.esc="$emit('input', false)"
         >
             <v-card>
-                <v-card-title class="text-h5 empresa-modal-title">
+                <v-card-title class="text-h5 vantagem-modal-title">
                     <h4>
                         <span>{{ titulo }}</span>
                     </h4>
@@ -20,12 +20,12 @@
                 </v-card-title>
                 <v-card-text>
                     <v-container fluid>
-                        <v-form ref="formEmpresa" v-model="valid" lazy-validation>
+                        <v-form ref="formVantagem" v-model="valid" lazy-validation>
                             <!-- Identificação -->
                             <v-row>
                                 <v-col :md="12" :sm="12" :xl="12" cols="12">
                                     <v-text-field
-                                        v-model="empresa.nome"
+                                        v-model="vantagem.nome"
                                         hide-details="auto"
                                         label="Nome"
                                         :rules="[v => !!v || 'Nome é obrigatório']"
@@ -37,19 +37,33 @@
                             <v-row>
                                 <v-col :md="12" :sm="12" :xl="12" cols="12">
                                     <v-text-field
-                                        v-model="empresa.documento"
+                                        v-model="vantagem.valor"
                                         hide-details="auto"
-                                        label="Documento"
-                                        :rules="[v => !!v || 'Documento é obrigatório']"
-                                        maxlength="30"
+                                        label="Valor"
+                                        :rules="[v => !!v || 'Valor é obrigatório']"
+                                        type="number"
+                                        min="1"
+                                        maxlength="6"
                                         outlined
                                     />
                                 </v-col>
                             </v-row>
 
-                            <!-- Botão de marcarConsulta -->
-                            <v-row>
-                                <v-col class="empresa-modal-marcar text-center">
+                            <v-col :md="12" :sm="12" :xl="12" cols="12">
+                                <v-select
+                                    v-model="vantagem.empresa_id"
+                                    :clearable="true"
+                                    hide-details="auto"
+                                    label="Empresa"
+                                    :rules="[(v) => !!v || 'Empresa obrigatório']"
+                                    :items="empresas"
+                                    item-text="pessoa.nome"
+                                    item-value="id"
+                                    outlined
+                                />
+                            </v-col>
+                                                            <v-row>
+                                <v-col class="vantagem-modal-marcar text-center">
                                     <v-btn color="primary" block @click="gravar">Gravar</v-btn>
                                 </v-col>
                             </v-row>
@@ -63,45 +77,56 @@
 
 <script>
 export default {
-    name: "modal-empresa",
-    props: ["value", "empresaId"],
+    name: "modal-vantagem",
+    props: ["value", "vantagemId"],
     data() {
         return {
             valid: true,
-            titulo: "Novo empresa",
+            titulo: "Nova vantagem",
 
-            empresa: {
+            vantagem: {
                 id: '',
                 nome: '',
-                documento: '',
-
+                valor: '',
+                empresa: ''
             },
+            empresas:[{id: '', pessoa:{nome:''}}]
         };
     },
     watch: {
-        empresaId: function (id) {
+        value: function () {
+            this.$axios
+                .$get("/empresa")
+                .then((response) => { this.empresas = response.data })
+                .catch((error) => {
+                    this.$swal('Opss..', { text: error.response.data.message, icon: 'error' });
+                });
+        },
+
+        vantagemId: function (id) {
             if (id != 0) {
                 this.edit(id);
-                this.titulo = "Editar empresa"
+                this.titulo = "Editar vantagem"
             } else {
-                this.titulo = "Novo empresa"
+                this.titulo = "Novo vantagem"
                 this.limpaDados();
             }
         },
     },
     methods: {
         gravar() {
-            if (this.$refs.formEmpresa.validate()) {
-                let empresa = JSON.parse(JSON.stringify(this.empresa));
+            if (this.$refs.formVantagem.validate()) {
+                let vantagem = JSON.parse(JSON.stringify(this.vantagem));
 
-                if (empresa.id == 0) {
+                if (vantagem.id == 0) {
                     this.$axios
-                        .$post("/empresa", empresa)
+                        .$post("/vantagem", vantagem)
                         .then((response) => {
                             this.limpaDados();
-                            this.$swal( "empresa adicionado com sucesso!");
+                            
+                            this.$swal( "vantagem adicionado com sucesso!");
                             this.$emit('input', false)
-                            this.$emit('listaEmpresas')
+                            this.$emit('listaVantagens')
 
                         })
                         .catch((error) => {
@@ -110,12 +135,12 @@ export default {
                         });
                 } else {
                     this.$axios
-                        .$put("/empresa/" + empresa.id, empresa)
+                        .$put("/vantagem/" + vantagem.id, vantagem)
                         .then((response) => {
-                            this.edit(empresa.id);
-                            this.$swal( "empresa atualizado com sucesso!");
+                            this.edit(vantagem.id);
+                            this.$swal( "vantagem atualizado com sucesso!");
                             this.$emit('input', false)
-                            this.$emit('listaEmpresas')
+                            this.$emit('listavantagems')
                         })
                         .catch((error) => {
                             this.$swal('Opss..', { text: error.response.data.message, icon: 'error' });
@@ -128,9 +153,9 @@ export default {
 
         edit(id) {
             this.$axios
-                .$get("/empresa/" + id)
+                .$get("/vantagem/" + id)
                 .then((response) => {
-                    this.empresa = response;
+                    this.vantagem = response;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -139,14 +164,14 @@ export default {
         },
 
         limpaDados() {
-            this.empresa = {
+            this.vantagem = {
                 id: '',
                 nome: '',
                 documento: '',
                 curso_id: '',
                 instituicao_id: ''
             }
-            this.$refs.formEmpresa.reset();
+            this.$refs.formVantagem.reset();
         },
 
     },
@@ -154,11 +179,11 @@ export default {
 </script>
 
 <style>
-.empresa-modal-title {
+.vantagem-modal-title {
     margin-left: 20px;
 }
 
-.empresa-modal-title h4 {
+.vantagem-modal-title h4 {
     width: calc(100% - 50px);
     text-align: left;
     border-bottom: 1px solid #b7b7b7;
@@ -166,11 +191,11 @@ export default {
     margin: 20px 0 20px;
 }
 
-.empresa-modal-title h4 span {
+.vantagem-modal-title h4 span {
     padding: 0 5px;
 }
 
-.empresa-modal-marcar {
+.vantagem-modal-marcar {
     border-radius: 10px;
 }
 </style>

@@ -19,19 +19,10 @@ class AlunoController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function lista(Request $request)
     {        
         $relationShips = ['instituicao', 'pessoa', 'curso', 'pessoa.conta'];        
         return response()->json(Aluno::with($relationShips)->paginate());
-    }
-
-    public function lista()
-    {
-        $lista = Array();
-        $relationShips = ['instituicao', 'pessoa', 'curso', 'pessoa.conta'];
-        $lista = Aluno::with($relationShips)->paginate();
-
-        return response()->json($lista);
     }
 
     public function save(Request $request){
