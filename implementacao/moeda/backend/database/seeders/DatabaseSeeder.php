@@ -35,6 +35,23 @@ class DatabaseSeeder extends Seeder
             'curso_id' => DB::table('curso')->insertGetId(['nome' => 'Eng. Software'])
         ]);
 
+        DB::table('empresa')->insert([
+            'pessoa_id' => DB::table('pessoa')->insertGetId([
+                'nome' => 'Empresa 1',
+                'documento' =>  Str::random(11),
+                'conta_id' => DB::table('conta')->insertGetId(['saldo' => 0])
+            ]),
+        ]);
+
+        DB::table('empresa')->insert([
+            'pessoa_id' => DB::table('pessoa')->insertGetId([
+                'nome' => 'Empresa 2',
+                'documento' =>  Str::random(11),
+                'conta_id' => DB::table('conta')->insertGetId(['saldo' => 0])
+            ]),
+        ]);
+
+
         $pessoaId = DB::table('pessoa')->insertGetId([
             'nome' => 'Laerte',
             'documento' =>  Str::random(11),

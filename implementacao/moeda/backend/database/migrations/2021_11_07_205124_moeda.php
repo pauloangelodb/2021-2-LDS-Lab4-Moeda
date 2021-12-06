@@ -130,6 +130,15 @@ class Moeda extends Migration
             $table->integer('empresa_id')->unsigned()->nullable();;
             $table->foreign('empresa_id')->references('id')->on('empresa');
         });
+
+
+        try {
+            Schema::table('movimentacao', function (Blueprint $table) {
+                $table->integer('vantagem_id')->unsigned()->nullable();;
+                $table->foreign('vantagem_id')->references('id')->on('vantagem');            });
+        } catch (\Illuminate\Database\QueryException $ex) {
+        }
+        
     }
 
     /**

@@ -133,6 +133,11 @@ export default {
           icon: 'mdi-account',
           title: 'Usuario',
           to: '/usuario'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Comprar Vantagem',
+          to: '/aluno/vantagem'
         }
       ],
       miniVariant: false,

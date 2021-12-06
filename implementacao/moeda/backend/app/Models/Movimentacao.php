@@ -45,4 +45,12 @@ class Movimentacao extends Model
     {
         return $this->belongsTo('App\Models\Conta', 'conta_origem_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function vantagem()
+    {
+        return $this->belongsTo('App\Models\Vantagem', 'vantagem_id');
+    }
 }

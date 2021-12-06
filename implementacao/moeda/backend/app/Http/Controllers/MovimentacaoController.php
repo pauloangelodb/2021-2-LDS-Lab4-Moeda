@@ -21,27 +21,29 @@ class MovimentacaoController extends Controller
     {
     }
 
-    public function lista()
+    public function lista(Request $request)
     {
-        $lista = Movimentacao::with('contaOrigem.pessoas', 'contaDestino.pessoas');
+        
+        $lista = Movimentacao::with('contaOrigem.pessoas', 'contaDestino.pessoas', 'vantagem');
         return response()->json($lista->paginate());
     }
 
     public function save(Request $request){
         $request->validate([
             'conta_origem_id' => 'required',
-            'conta_destino_id' => 'required',
+            'conta_destino_id' => 'required_without:vantagem_id',
+            'vantagem_id' => 'required_without:conta_destino_id',
             'valor' => 'required',
         ]);
         $valor = floatval($request->valor);
         $origem = Conta::find($request->conta_origem_id)->first();
+
         if(($origem->saldo - $valor) < 0){
             return response()->json(["message"=>"Saldo insuficiente"], 400);
         }
         $origem->saldo = $origem->saldo - $valor;        
-        $origem->save();
-        dd($origem);
-
+        $origem->save();        
+        
         $destino = Conta::find($request->conta_destino_id)->first();
         $destino->saldo += $valor;
         $destino->save();
@@ -51,9 +53,11 @@ class MovimentacaoController extends Controller
             'data' => date('Y-m-d H:i:s'),
             'conta_origem_id' => $request->conta_origem_id,
             'conta_destino_id' => $request->conta_destino_id,
+            'vantagem_id' => isset($request->vantagem_id) ? $request->vantagem_id : null,
             'valor' => $request->valor
         ]);
 
         return response()->json(["message" => 'Transacao realizada com suceso']);
     }
 }
+

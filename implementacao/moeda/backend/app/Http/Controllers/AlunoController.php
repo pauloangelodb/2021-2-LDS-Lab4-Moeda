@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aluno;
+use App\Models\Movimentacao;
 use App\Models\Pessoa;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -85,5 +86,11 @@ class AlunoController extends Controller
 
         dd($lista);
         return response()->json($lista);
+    }
+
+    public function listaVantagem(Request $request)
+    {   
+        $lista = Movimentacao::with('contaOrigem.pessoas', 'contaDestino.pessoas', 'vantagem.empresa');
+        return response()->json($lista->paginate());
     }
 }
