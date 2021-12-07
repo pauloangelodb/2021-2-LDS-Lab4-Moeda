@@ -29,6 +29,8 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('me', 'ApiController@me');
     Route::get('refresh', 'ApiController@refresh');
 
+    Route::get('/usuario',     'UsuarioController@lista');
+
     Route::get('/aluno',   'AlunoController@lista');
     Route::get('/aluno/vantagem',   'AlunoController@listaVantagem');
     Route::post('/aluno', 'AlunoController@save');

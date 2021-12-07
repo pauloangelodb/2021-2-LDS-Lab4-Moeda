@@ -135,7 +135,8 @@ class Moeda extends Migration
         try {
             Schema::table('movimentacao', function (Blueprint $table) {
                 $table->integer('vantagem_id')->unsigned()->nullable();;
-                $table->foreign('vantagem_id')->references('id')->on('vantagem');            });
+                $table->foreign('vantagem_id')->references('id')->on('vantagem');            
+            });
         } catch (\Illuminate\Database\QueryException $ex) {
         }
         

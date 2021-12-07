@@ -36,7 +36,9 @@ class MovimentacaoController extends Controller
             'valor' => 'required',
         ]);
         $valor = floatval($request->valor);
-        $origem = Conta::find($request->conta_origem_id)->first();
+        $vantagem_id = isset($request->vantagem_id) ? $request->vantagem_id : null;
+        //dd($vantagem_id);
+        $origem = Conta::firstWhere('id', $request->conta_origem_id);
 
         if(($origem->saldo - $valor) < 0){
             return response()->json(["message"=>"Saldo insuficiente"], 400);
@@ -44,20 +46,19 @@ class MovimentacaoController extends Controller
         $origem->saldo = $origem->saldo - $valor;        
         $origem->save();        
         
-        $destino = Conta::find($request->conta_destino_id)->first();
+        $destino = Conta::firstWhere('id', $request->conta_destino_id);
         $destino->saldo += $valor;
         $destino->save();
-
+        
+        $movimentacao = new Movimentacao();
+        $movimentacao->data = date('Y-m-d H:i:s');
+        $movimentacao->vantagem_id = $vantagem_id;
+        $movimentacao->conta_origem_id = $request->conta_origem_id;
+        $movimentacao->conta_destino_id = $request->conta_destino_id;
+        $movimentacao->valor = $valor;
+        $movimentacao->save();
         //Carbon::parse($request->dataVenda)->format('Y-m-d H:i');
-        Movimentacao::create([
-            'data' => date('Y-m-d H:i:s'),
-            'conta_origem_id' => $request->conta_origem_id,
-            'conta_destino_id' => $request->conta_destino_id,
-            'vantagem_id' => isset($request->vantagem_id) ? $request->vantagem_id : null,
-            'valor' => $request->valor
-        ]);
-
-        return response()->json(["message" => 'Transacao realizada com suceso']);
+        return response()->json(["message" => 'Transacao realizada com suceso', 'movimentacao' => $movimentacao]);
     }
 }
 

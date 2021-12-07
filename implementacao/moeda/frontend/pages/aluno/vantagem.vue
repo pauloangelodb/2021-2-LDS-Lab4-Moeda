@@ -4,7 +4,7 @@
       <div class="div-titulo-btn">
         <v-card-title>
           <!-- <span class="text-5"> Bem vindo {{ $store.getters['login/me'].name }} </span> -->
-          <span class="text-h6">Transações</span>
+          <span class="text-h6">Vantagems do aluno</span>
         </v-card-title>
         <v-card-actions>
           <v-btn
@@ -12,7 +12,7 @@
             color="primary"
             background="primary"
             @click="modalAtivo = !modalAtivo"
-          >Transacionar</v-btn>
+          >Resgatar vantagem</v-btn>
           <modal-transacao-vantagem v-model="modalAtivo" @listaTransacoes="listaTransacoes" />
         </v-card-actions>
       </div>
@@ -68,8 +68,8 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'De', value: 'conta_origem.pessoas[0].nome' },
-        { text: 'Para', value: 'conta_destino.pessoas[0].nome' },
+        { text: 'Aluno', value: 'conta_origem.pessoas[0].nome' },
+        { text: 'Empresa', value: 'conta_destino.pessoas[0].nome' },
         { text: 'Vantagem', value:'vantagem.nome'},
         { text: 'Valor', value: 'valor' },
         { text: 'Data', value: 'data' },

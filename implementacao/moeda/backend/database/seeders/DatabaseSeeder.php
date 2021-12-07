@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'curso_id' => DB::table('curso')->insertGetId(['nome' => 'Eng. Software'])
         ]);
 
-        DB::table('empresa')->insert([
+       $empresaId = DB::table('empresa')->insert([
             'pessoa_id' => DB::table('pessoa')->insertGetId([
                 'nome' => 'Empresa 1',
                 'documento' =>  Str::random(11),
@@ -83,6 +83,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'joao@teste.com',
             'password' => Hash::make("teste123"), // password
             'remember_token' => Str::random(10),
+        ]);
+
+        DB::table('vantagem')->insert([
+            'nome' => 'Vantagem 1',
+            'valor'=> 100,
+            'empresa_id' => $empresaId
         ]);
     }
 }

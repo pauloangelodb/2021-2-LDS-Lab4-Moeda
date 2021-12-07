@@ -107,9 +107,9 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'Nome', value: 'pessoa.nome' },
-        { text: 'Email', value: 'pessoa.email' },
-        { text: 'Senha', value: 'pessoa.password' },
+        { text: 'Nome', value: 'name' },
+        { text: 'Email', value: 'email' },
+        //{ text: 'Senha', value: 'password' },
       ],
       usuarios: [],
 
