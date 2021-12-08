@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
-
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
 class UsuarioController extends Controller
 {
 
@@ -26,27 +26,37 @@ class UsuarioController extends Controller
         return response()->json(User::paginate());
     }
 
-    // public function save(Request $request)
-    // {
+    public function save(Request $request)
+    {
 
-    //     $request->validate([
-    //         'nome' => 'required|string|max:255',
-    //         'documento' => 'required|string|max:255',
-    //         'curso_id' => 'required',
-    //         'instituicao_id' => 'required'
-    //     ]);
+        $data = $request->only('name', 'email', 'password', 'tipo');
+        $validator = Validator::make($data, [
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:6|max:50',
+            'tipo' => 'required'
+        ]);
 
-    //     $aluno = new Aluno();
-    //     $aluno->curso_id = intval($request->curso_id);
-    //     $aluno->instituicao_id = intval($request->instituicao_id);
-    //     $aluno->pessoa_id = DB::table('pessoa')->insertGetid([
-    //         'nome' => $request->nome,
-    //         'documento_tipo' => 'CPF',
-    //         'documento' => $request->documento,
-    //         'conta_id' => DB::table('conta')->insertGetId(['saldo' => 0])
-    //     ]);
-    //     $aluno->save();
-    //     return response()->json(['message' => 'ok']);
-    // }
+        //Send failed response if request is not valid
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 200);
+        }
+
+        //Request is valid, create new user
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'tipo' => trim($request->tipo)
+        ]);
+
+        //User created, return success response
+        return response()->json([
+            'success' => true,
+            'message' => 'User created successfully',
+            'data' => $user
+        ], Response::HTTP_OK);
+
+    }
 
 }

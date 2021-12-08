@@ -15,7 +15,7 @@
           >
             Adicionar Usuário
           </v-btn>
-          <!-- <modalTratamento v-model="modalAtivo" v-bind:tratamentoId="tratamentoId" @listaUsuarios="listaUsuarios" /> -->
+          <modalUsuarioVue v-model="modalAtivo" v-bind:usuarioId="usuarioId" @listaUsuarios="listaUsuarios" />
         </v-card-actions>
       </div>
       <!-- Filtro Simples -->
@@ -73,8 +73,6 @@
   </v-container>
 </template>
 
-<script src="./index.js"></script>
-
 <style lang="scss">
 .div-titulo-btn {
   display: flex;
@@ -97,11 +95,11 @@
 </style>
 
 <script>
-//import modalTratamento from '@/components/tratamento/modal.vue'
+import modalUsuarioVue from "../../components/usuario/modal.vue";
 export default {
   layout: "index",
   components: {
-    //modalTratamento,
+    modalUsuarioVue
   },
 
   data() {
@@ -112,6 +110,7 @@ export default {
         //{ text: 'Senha', value: 'password' },
       ],
       usuarios: [],
+      usuarioId:0,
 
       toast: false,
       toastMensagem: '',
@@ -147,10 +146,10 @@ export default {
     abreModal(id){
       if(id){
         this.modalAtivo = !this.modalAtivo;
-        this.tratamentoId = id;
+        this.usuarioId = id;
       }else{
         this.modalAtivo = !this.modalAtivo;
-        this.tratamentoId = 0;
+        this.usuarioId = 0;
       }
     },
 

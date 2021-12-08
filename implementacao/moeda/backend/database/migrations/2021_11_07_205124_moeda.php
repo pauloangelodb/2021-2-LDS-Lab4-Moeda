@@ -51,7 +51,7 @@ class Moeda extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            //$table->char('tipo');
+            $table->string('tipo')->nullable();
             $table->rememberToken();
             $table->timestamps();
             // $table->integer('pessoa_id')->unsigned()->nullable();;

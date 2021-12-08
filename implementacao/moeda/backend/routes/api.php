@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('login', 'ApiController@authenticate');
-Route::post('register', 'ApiController@register');
+//Route::post('register', 'ApiController@register');
 
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('logout', 'ApiController@logout');
@@ -30,6 +30,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('refresh', 'ApiController@refresh');
 
     Route::get('/usuario',     'UsuarioController@lista');
+    Route::post('/usuario',    'UsuarioController@save');
 
     Route::get('/aluno',   'AlunoController@lista');
     Route::get('/aluno/vantagem',   'AlunoController@listaVantagem');

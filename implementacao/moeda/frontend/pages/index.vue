@@ -58,7 +58,7 @@
   </v-container>
 </template>
 <script>
-import modalTransacaoVue from "../components/modalTransacao.vue";
+import modalTransacaoVue from "../components/transacao/modalTransacao.vue";
 export default {
   layout: "index",
   components: {

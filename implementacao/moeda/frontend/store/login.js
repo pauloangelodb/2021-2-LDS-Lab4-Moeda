@@ -2,8 +2,8 @@
 export const state = () => ({
     token: null,
     me: {
-        name: null
-        //tipo: null
+        name: null,
+        tipo: null
     }
 })
 

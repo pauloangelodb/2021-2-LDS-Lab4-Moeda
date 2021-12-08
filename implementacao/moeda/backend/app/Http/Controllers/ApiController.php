@@ -72,11 +72,11 @@ class ApiController extends Controller
                 'message' => 'Could not create token.',
             ], 500);
         }
-
         //Token created, return with success response and jwt token
         return response()->json([
             'success' => true,
             'token' => $token,
+            'user' => auth('api')->user()
         ]);
     }
 
